@@ -1,0 +1,29 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="ClassName" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="namePattern" value="[A-Za-z][A-Za-z\d]*" />
+    </inspection_tool>
+    <inspection_tool class="ConstPropertyName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="100" name="Kotlin" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="EnumEntryName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="FunctionName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="GrUnresolvedAccess" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="GroovyAssignabilityCheck" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JoinDeclarationAndAssignment" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="LiftReturnOrAssignment" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="LocalVariableName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="MoveSuspiciousCallableReferenceIntoParentheses" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="MoveVariableDeclarationIntoWhen" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="ObjectPropertyName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="PackageName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="PrivatePropertyName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="PropertyName" enabled="true" level="TYPO" enabled_by_default="true" />
+    <inspection_tool class="ReplaceRangeStartEndInclusiveWithFirstLast" enabled="true" level="INFORMATION" enabled_by_default="true" />
+    <inspection_tool class="TestFunctionName" enabled="true" level="TYPO" enabled_by_default="true" />
+  </profile>
+</component>
