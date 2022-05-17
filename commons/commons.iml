@@ -11,5 +11,6 @@
     <orderEntry type="library" name="kotlin-stdlib-jdk8" level="project" />
     <orderEntry type="library" scope="TEST" name="junit-jupiter" level="project" />
     <orderEntry type="library" scope="TEST" name="yaka" level="project" />
+    <orderEntry type="library" scope="TEST" name="kotlin-reflect" level="project" />
   </component>
 </module>
