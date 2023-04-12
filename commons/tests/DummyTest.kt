@@ -4,7 +4,7 @@ import lb.yaka.base.expectations.equalsTo
 import lb.yaka.base.gears.expect
 import org.junit.jupiter.api.Test
 
-class DummyTest {
+class DummyTest: UnitTest {
 
     @Test
     fun testingIsPossible() {
