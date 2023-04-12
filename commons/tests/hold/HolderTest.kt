@@ -1,7 +1,11 @@
 package lb.kutil.commons.hold
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.kutil.commons.UnitTest
+import lb.yaka.base.expectations.contains
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.expectations.iz
+import lb.yaka.base.gears.complies
+import lb.yaka.base.gears.expect
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
@@ -10,7 +14,7 @@ import java.util.function.Supplier
 
 
 @TestMethodOrder(MethodOrderer.MethodName::class)
-class HolderTest {
+class HolderTest: UnitTest {
 
     @Test
     fun `01_Holder_basic_example`() {

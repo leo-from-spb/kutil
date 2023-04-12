@@ -9,8 +9,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="kotlin-stdlib-jdk8" level="project" />
+    <orderEntry type="library" scope="TEST" name="lb.yaka.base" level="project" />
     <orderEntry type="library" scope="TEST" name="junit-jupiter" level="project" />
-    <orderEntry type="library" scope="TEST" name="yaka" level="project" />
     <orderEntry type="library" scope="TEST" name="kotlin-reflect" level="project" />
   </component>
 </module>

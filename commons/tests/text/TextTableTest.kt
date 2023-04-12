@@ -1,14 +1,15 @@
 package lb.kutil.commons.text
 
+import lb.kutil.commons.UnitTest
 import lb.kutil.commons.text.TextTable.Align.LEFT
 import lb.kutil.commons.text.TextTable.Align.RIGHT
 import lb.kutil.commons.text.TextTable.Column
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.gears.expect
 import org.junit.jupiter.api.Test
 
 
-class TextTableTest {
+class TextTableTest: UnitTest {
 
     @Test
     fun `1_column_mono`() {

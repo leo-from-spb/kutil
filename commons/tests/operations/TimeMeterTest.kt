@@ -1,14 +1,17 @@
 package lb.kutil.commons.operations
 
-import lb.yaka.expectations.*
-import lb.yaka.gears.*
+import lb.kutil.commons.UnitTest
+import lb.yaka.base.expectations.equalsTo
+import lb.yaka.base.expectations.hasSize
+import lb.yaka.base.gears.complies
+import lb.yaka.base.gears.expect
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 
 
 @TestMethodOrder(MethodOrderer.MethodName::class)
-class TimeMeterTest {
+class TimeMeterTest: UnitTest {
 
     @Test
     fun `1_operation_1_metric`() {
