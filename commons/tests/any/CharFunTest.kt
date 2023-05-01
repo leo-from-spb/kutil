@@ -1,4 +1,4 @@
-package lb.kutil.commons.text
+package lb.kutil.commons.any
 
 import lb.kutil.commons.UnitTest
 import lb.yaka.base.expectations.equalsTo

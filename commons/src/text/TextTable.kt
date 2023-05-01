@@ -2,6 +2,9 @@
 
 package lb.kutil.commons.text
 
+import lb.kutil.commons.any.appendIf
+import lb.kutil.commons.any.appendIfNotNull
+import lb.kutil.commons.any.replicate
 import java.lang.Integer.max
 
 /**

@@ -1,6 +1,6 @@
 @file:JvmName("StringBuilderFun")
 
-package lb.kutil.commons.text
+package lb.kutil.commons.any
 
 
 fun StringBuilder.appendIfNotNull(s: CharSequence?): StringBuilder {

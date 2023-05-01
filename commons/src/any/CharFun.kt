@@ -1,5 +1,5 @@
 @file:JvmName("CharFun")
-package lb.kutil.commons.text
+package lb.kutil.commons.any
 
 
 fun Char.replicate(n: Int): String =

@@ -1,4 +1,4 @@
-package lb.kutil.commons.text
+package lb.kutil.commons.any
 
 /**
  * Combines the given string [parts] which are non-null into a phrase of these parts using the specified [delimiter], with [prefix] and [suffix].
