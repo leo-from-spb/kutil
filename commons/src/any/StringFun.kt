@@ -58,3 +58,40 @@ fun CharSequence.extract(regex: Regex, index: Int): String? {
     return group.value
 }
 
+
+/**
+ * Gets the string with left [n] characters of the given string.
+ * When the given string has exactly [n] characters or when it is shorter,
+ * the original string is returned.
+ */
+fun String.left(n: Int): String =
+    if (this.length > n) this.substring(0, n)
+    else this
+
+/**
+ * Gets the string with right [n] characters of the given string.
+ * When the given string has exactly [n] characters or when it is shorter,
+ * the original string is returned.
+ */
+fun String.right(n: Int): String {
+    val len = this.length
+    if (len <= n) return this
+    return this.substring(len - n, len)
+}
+
+
+/**
+ * Removes a part of this string that starts with the given [suffixMarker].
+ * If there's no such marker, returns this as is.
+ * @param suffixMarker the substring which with a suffix begins.
+ * @param trimSpaces removes also spaces before the suffix
+ *                   (it removes only right spaces of the result and doesn't affect on the left spaces).
+ */
+fun String.removeSuffixStartingWith(suffixMarker: String, trimSpaces: Boolean = false): String {
+    var p = this.indexOf(suffixMarker)
+    if (p < 0) return this
+    if (trimSpaces) {
+        while (p > 0 && this[p-1].isWhitespace()) p--
+    }
+    return this.substring(0, p)
+}

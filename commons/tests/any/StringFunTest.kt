@@ -84,4 +84,58 @@ class StringFunTest: UnitTest {
         expect that v iz Null
     }
 
+
+    @Test
+    fun left_basic() {
+        expect that "TheLongWord".left(7) equalsTo "TheLong"
+        expect that "TheLongWord".left(3) equalsTo "The"
+    }
+
+    @Test
+    fun left_same() {
+        val orig = "TheLongWord"
+        expect that orig.left(11) sameAs orig
+        expect that orig.left(99) sameAs orig
+    }
+
+
+    @Test
+    fun right_basic() {
+        expect that "TheLongWord".right(8) equalsTo "LongWord"
+        expect that "TheLongWord".right(4) equalsTo "Word"
+    }
+
+    @Test
+    fun right_same() {
+        val orig = "TheLongWord"
+        expect that orig.right(11) sameAs orig
+        expect that orig.right(99) sameAs orig
+    }
+
+
+    @Test
+    fun removeSuffixStartingWith_basic() {
+        val s = "SomeText// a comment".removeSuffixStartingWith("//")
+        expect that s equalsTo "SomeText"
+    }
+
+    @Test
+    fun removeSuffixStartingWith_preserveSpaces() {
+        val s = "Some text // a comment".removeSuffixStartingWith("//", trimSpaces = false)
+        expect that s equalsTo "Some text " // the space at the end
+    }
+
+    @Test
+    fun removeSuffixStartingWith_trimSpaces() {
+        val s = "Some text // a comment".removeSuffixStartingWith("//", trimSpaces = true)
+        expect that s equalsTo "Some text" // no spaces at the end
+    }
+
+    @Test
+    fun removeSuffixStartingWith_same() {
+        val origin = "Some text"
+        val s = origin.removeSuffixStartingWith("//", trimSpaces = true)
+        expect that s sameAs origin
+    }
+    
 }
