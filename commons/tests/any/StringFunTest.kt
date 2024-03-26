@@ -137,5 +137,43 @@ class StringFunTest: UnitTest {
         val s = origin.removeSuffixStartingWith("//", trimSpaces = true)
         expect that s sameAs origin
     }
-    
+
+    @Test
+    fun countOf_char() {
+        expect that "abc#def#xyz".countOf('#') equalsTo 2
+        expect that "#def___xyz#".countOf('#') equalsTo 2
+        expect that "abc_def_xyz".countOf('#') equalsTo 0
+    }
+
+    @Test
+    fun countOf_empty() {
+        expect that "".countOf('#') equalsTo 0
+    }
+
+    @Test
+    fun countOf_substring_1() {
+        expect that "aa#bbb#cc".countOf("#") equalsTo 2
+        expect that "aaa###ccc".countOf("#") equalsTo 3
+    }
+
+    @Test
+    fun countOf_substring_basic() {
+        expect that "aaa##bbb##ccc".countOf("##") equalsTo 2
+        expect that "aaa#!bbb#!ccc".countOf("#!") equalsTo 2
+        expect that "##bbb##cccc##".countOf("##") equalsTo 3
+    }
+
+    @Test
+    fun countOf_substring_double() {
+        expect that "aaa######ccc".countOf("##") equalsTo 3
+        expect that "aaa######ccc".countOf("###") equalsTo 2
+        expect that "aaa#######cc".countOf("###") equalsTo 2
+        expect that "aaa########c".countOf("###") equalsTo 2
+    }
+
+    @Test
+    fun countOf_substring_empty() {
+        expect that "".countOf("x") equalsTo 0
+    }
+
 }

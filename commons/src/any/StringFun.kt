@@ -95,3 +95,36 @@ fun String.removeSuffixStartingWith(suffixMarker: String, trimSpaces: Boolean = 
     }
     return this.substring(0, p)
 }
+
+
+/**
+ * Counts occurrences of the given character in this string.
+ *
+ * @param ch the character to count.
+ */
+fun CharSequence.countOf(ch: Char): Int {
+    var k = 0
+    for (c in this) if (c == ch) k++
+    return k
+}
+
+/**
+ * Counts occurrences of the given substring in this string.
+ *
+ * @param substring the substring to count, must not be empty.
+ * @exception IllegalArgumentException when the [substring] is empty.
+ */
+fun CharSequence.countOf(substring: String): Int {
+    val m = substring.length
+    if (m == 1) return this.countOf(substring[0])
+    if (m == 0) throw IllegalArgumentException("substring must not be empty")
+    if (m > this.length) return 0
+    
+    var k = 0
+    var i = this.indexOf(substring)
+    while (i >= 0) {
+        k++
+        i = this.indexOf(substring, startIndex = i + m)
+    }
+    return k
+}
