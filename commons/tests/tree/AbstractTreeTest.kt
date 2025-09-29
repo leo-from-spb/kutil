@@ -4,29 +4,40 @@ import lb.kutil.commons.UnitTest
 import lb.kutil.commons.any.toList
 import lb.yaka.base.expectations.equalsTo
 import lb.yaka.base.gears.expect
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Order
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
+import org.junit.jupiter.api.*
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class AbstractTreeTest : UnitTest {
 
+    lateinit var treeOfJustSingleRoot: AbstractTree<Number>
+    lateinit var treeOfChain:          AbstractTree<String>
+    lateinit var treeOfABC:            AbstractTree<String>
+
+
+    @BeforeAll
+    fun seedTheForest() {
+        treeOfJustSingleRoot =
+            AbstractTree(root = 26L)
+        treeOfChain =
+            AbstractTree.treeWithRoot("")
+                .withChildren { n: String -> if (n.length < 5) listOf(n + 'X') else emptyList() }
+        treeOfABC =
+            AbstractTree.treeWithRoot("")
+                .withChildren { n: String -> if (n.length < 3) listOf(n + 'A', n + 'B', n + 'C') else emptyList() }
+    }
+
+
+
     @Test @Order(111)
     fun traverseDepthFirst_oneNode() {
-        val theOnlyNode: Number = 26L
-        val tree = AbstractTree<Number>(theOnlyNode)
-        val traversed = tree.traverseDepthFirst().toList()
-        expect that traversed equalsTo listOf(theOnlyNode)
+        val traversed = treeOfJustSingleRoot.traverseDepthFirst().toList()
+        expect that traversed equalsTo listOf(26L)
     }
 
     @Test @Order(112)
     fun traverseDepthFirst_regular() {
-        val tree =
-            AbstractTree.treeWithRoot("")
-                .withChildren { n: String -> if (n.length < 3) listOf(n + 'A', n + 'B', n + 'C') else emptyList() }
-        val traversed = tree.traverseDepthFirst().toList()
+        val traversed = treeOfABC.traverseDepthFirst().toList()
         val expectedNodes = arrayOf(
             "",
             "A", "AA", "AAA", "AAB", "AAC",
@@ -43,10 +54,7 @@ class AbstractTreeTest : UnitTest {
 
     @Test @Order(113)
     fun traverseDepthFirst_chain() {
-        val tree =
-            AbstractTree.treeWithRoot("")
-                .withChildren { n: String -> if (n.length < 5) listOf(n + 'X') else emptyList() }
-        val traversed = tree.traverseDepthFirst().toList()
+        val traversed = treeOfChain.traverseDepthFirst().toList()
         val expectedNodes = arrayOf("", "X", "XX", "XXX", "XXXX", "XXXXX")
         expect that traversed equalsTo expectedNodes
     }
@@ -54,18 +62,13 @@ class AbstractTreeTest : UnitTest {
 
     @Test @Order(121)
     fun traverseBreadthFirst_oneNode() {
-        val theOnlyNode: Number = 26L
-        val tree = AbstractTree<Number>(theOnlyNode)
-        val traversed = tree.traverseBreadthFirst().toList()
-        expect that traversed equalsTo listOf(theOnlyNode)
+        val traversed = treeOfJustSingleRoot.traverseBreadthFirst().toList()
+        expect that traversed equalsTo listOf(26L)
     }
 
     @Test @Order(122)
     fun traverseBreadthFirst_regular() {
-        val tree =
-            AbstractTree.treeWithRoot("")
-                .withChildren { n: String -> if (n.length < 3) listOf(n + 'A', n + 'B', n + 'C') else emptyList() }
-        val traversed = tree.traverseBreadthFirst().toList()
+        val traversed = treeOfABC.traverseBreadthFirst().toList()
         val expectedNodes = arrayOf(
             "",
             "A", "B", "C",
@@ -86,15 +89,9 @@ class AbstractTreeTest : UnitTest {
 
     @Test @Order(123)
     fun traverseBreadthFirst_chain() {
-        val tree =
-            AbstractTree.treeWithRoot("")
-                .withChildren { n: String -> if (n.length < 5) listOf(n + 'X') else emptyList() }
-        val traversed = tree.traverseBreadthFirst().toList()
+        val traversed = treeOfChain.traverseBreadthFirst().toList()
         val expectedNodes = arrayOf("", "X", "XX", "XXX", "XXXX", "XXXXX")
         expect that traversed equalsTo expectedNodes
     }
-
-
-
 
 }
