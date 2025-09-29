@@ -1,5 +1,28 @@
 package lb.kutil.commons.tree
 
+import java.util.SortedSet
+import java.util.TreeSet
+import kotlin.collections.ArrayDeque
+import kotlin.collections.ArrayList
+import kotlin.collections.Collection
+import kotlin.collections.HashSet
+import kotlin.collections.Iterable
+import kotlin.collections.Iterator
+import kotlin.collections.List
+import kotlin.collections.MutableCollection
+import kotlin.collections.MutableIterator
+import kotlin.collections.MutableListIterator
+import kotlin.collections.MutableSet
+import kotlin.collections.Set
+import kotlin.collections.addAll
+import kotlin.collections.any
+import kotlin.collections.emptyList
+import kotlin.collections.emptySet
+import kotlin.collections.isNotEmpty
+import kotlin.collections.listOf
+import kotlin.collections.reversed
+import kotlin.collections.toSet
+
 /**
  * Abstract tree.
  *
@@ -67,6 +90,46 @@ class AbstractTree<N: Any> {
 
 
     // ALGORITHM METHODS
+
+    /**
+     * Returns the path from the root to the given node.
+     * The path starts with the root node and ends with the given node.
+     * If the given node is a root, the function returns a list with a single root element.
+     */
+    fun pathFromRoot(node: N): List<N> {
+        val path = pathToRoot(node)
+        return if (path.size == 1) path else path.reversed()
+    }
+
+    /**
+     * Returns the path from the given node to the root.
+     * The path starts with the given node and ends with the root node.
+     * If the given node is a root, the function returns a list with a single root element.
+     */
+    fun pathToRoot(node: N): List<N> {
+        val path = ArrayList<N>()
+        var x: N? = node
+        while (x != null) {
+            path.add(x)
+            x = parentFunction(x)
+        }
+        return if (path.size == 1) listOf(node) else path
+    }
+
+    /**
+     * Determines whether the node [ancestor] is a direct or indirect parent of the node [descendant].
+     *
+     * Note: when both nodes are the same, the function returns *false*.
+     */
+    fun nodeIsAncestor(ancestor: N, descendant: N): Boolean {
+        var p: N? = parentFunction(descendant)
+        while (p != null) {
+            if (p == ancestor) return true
+            p = parentFunction(p)
+        }
+        return false
+    }
+
 
     fun traverseDepthFirst(): Iterator<N> =
         if (root != null) traverseDepthFirst(root)
@@ -171,5 +234,92 @@ class AbstractTree<N: Any> {
 
     }
 
+
+    /**
+     * Filters (retains) the top nodes of the tree.
+     *
+     * It filters the given collection in such a way that from any pair of two nodes,
+     * when one is a direct or indirect parent of the other, only the parent remains and the child is dropped.
+     *
+     * In the result collection, no node is a child of another node. And every node from the input collection
+     * is either a node from the result collection or is a direct or indirect child of some node from the result collection.
+     *
+     * The complexity of the algorithm in the best case is *O(m × h)* (when the input nodes are sorted from top to bottom)
+     * or *O(m² × h)* (when the input nodes are sorted from bottom to top),
+     * where *m* — the number of nodes in the input collection, *h* — the height of the tree.
+     * The complexity doesn't depend on the size of the tree.
+     *
+     * The result collection could be a new collection instance,
+     * or the input collection itself, if the input collection does not contain any nodes
+     * that are direct or indirect children of other nodes.
+     *
+     * @param nodes the input collection.
+     * @return the filtered collection.
+     */
+    fun filterTopNodes(nodes: Collection<N>): Collection<N> {
+        if (nodes.size < 2) return nodes
+
+        val ancestors: MutableSet<N> = createApplicableMutableEmptySet(nodes)
+        val result: MutableCollection<N> = createApplicableMutableEmptyCollection(nodes)
+
+        for (node in nodes) {
+            val path = pathToRoot(node)
+            if (path.size == 1) { // this is a root, other nodes don't matter
+                result.clear()
+                result.add(node)
+                break
+            }
+            if (ancestors.isEmpty()) { // this is the first node from the input collection
+                ancestors.addAll(path)
+                result.add(node)
+                continue
+            }
+            val pathSet = path.toSet()
+            if (result.any(pathSet::contains)) continue // it or it's ancestor already in the result
+            if (node in ancestors) { // this node is an ancestor of some node that already was added to the result
+                var removed = false
+                var replaced = false
+                val iterator: MutableIterator<N> = result.iterator()
+                while (iterator.hasNext()) {
+                    val theNode = iterator.next()
+                    if (nodeIsAncestor(node, theNode)) {
+                        iterator.remove()
+                        removed = true
+                        if (!replaced && iterator is MutableListIterator) {
+                            iterator.add(node)
+                            replaced = true
+                        }
+                    }
+                }
+                if (removed && !replaced) result.add(node)
+                continue
+            }
+            // so, it's just another node
+            ancestors.addAll(path)
+            result.add(node)
+        }
+
+        return if (result.size < nodes.size) result else nodes
+    }
+
+
+    private fun <T> createApplicableMutableEmptyCollection(originalCollection: Collection<T>): MutableCollection<T> {
+        if (originalCollection is Set) {
+            return createApplicableMutableEmptySet(originalCollection)
+        }
+        else {
+            return ArrayList<T>(originalCollection.size)
+        }
+    }
+
+    private fun <T> createApplicableMutableEmptySet(originalCollection: Collection<T>): MutableSet<T> {
+        if (originalCollection is SortedSet) {
+            val comparator = originalCollection.comparator()
+            return if (comparator != null) TreeSet(comparator) else TreeSet()
+        }
+        else {
+            return HashSet(originalCollection.size)
+        }
+    }
 
 }
