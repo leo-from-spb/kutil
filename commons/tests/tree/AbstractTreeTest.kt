@@ -54,6 +54,46 @@ class AbstractTreeTest : UnitTest {
     }
 
 
+    @Test @Order(105)
+    fun commonAncestor_commonPathFromRoot_basic() {
+        val nodeA = "ABAX"
+        val nodeB = "ABBA"
+        expect that treeOfABC.commonAncestor(nodeA, nodeB) equalsTo "AB"
+        expect that treeOfABC.commonPathFromRoot(nodeA, nodeB) equalsTo listOf("", "A", "AB")
+    }
+
+    @Test @Order(106)
+    fun commonAncestor_commonPathFromRoot_differentLengths() {
+        val nodeA = "ABC"
+        val nodeB = "ABANDON"
+        expect that treeOfABC.commonAncestor(nodeA, nodeB) equalsTo "AB"
+        expect that treeOfABC.commonPathFromRoot(nodeA, nodeB) equalsTo listOf("", "A", "AB")
+    }
+
+    @Test @Order(107)
+    fun commonAncestor_commonPathFromRoot_onlyRoot() {
+        val nodeA = "ABC"
+        val nodeB = "CABIN!"
+        expect that treeOfABC.commonAncestor(nodeA, nodeB) equalsTo ""
+        expect that treeOfABC.commonPathFromRoot(nodeA, nodeB) equalsTo listOf("")
+    }
+
+    @Test @Order(108)
+    fun commonAncestor_commonPathFromRoot_oneIsPartOfAnother_1() {
+        val nodeA = "ABC"
+        val nodeB = "ABCDE"
+        expect that treeOfABC.commonAncestor(nodeA, nodeB) equalsTo "ABC"
+        expect that treeOfABC.commonPathFromRoot(nodeA, nodeB) equalsTo listOf("", "A", "AB", "ABC")
+    }
+
+    @Test @Order(108)
+    fun commonAncestor_commonPathFromRoot_oneIsPartOfAnother_2() {
+        val nodeA = "ABCDE"
+        val nodeB = "ABC"
+        expect that treeOfABC.commonAncestor(nodeA, nodeB) equalsTo "ABC"
+        expect that treeOfABC.commonPathFromRoot(nodeA, nodeB) equalsTo listOf("", "A", "AB", "ABC")
+    }
+
 
     @Test @Order(111)
     fun traverseDepthFirst_oneNode() {

@@ -3,25 +3,7 @@ package lb.kutil.commons.tree
 import java.util.SortedSet
 import java.util.TreeSet
 import kotlin.collections.ArrayDeque
-import kotlin.collections.ArrayList
-import kotlin.collections.Collection
-import kotlin.collections.HashSet
-import kotlin.collections.Iterable
-import kotlin.collections.Iterator
-import kotlin.collections.List
-import kotlin.collections.MutableCollection
-import kotlin.collections.MutableIterator
-import kotlin.collections.MutableListIterator
-import kotlin.collections.MutableSet
-import kotlin.collections.Set
-import kotlin.collections.addAll
-import kotlin.collections.any
-import kotlin.collections.emptyList
-import kotlin.collections.emptySet
-import kotlin.collections.isNotEmpty
-import kotlin.collections.listOf
-import kotlin.collections.reversed
-import kotlin.collections.toSet
+import kotlin.math.min
 
 /**
  * Abstract tree.
@@ -128,6 +110,43 @@ class AbstractTree<N: Any> {
             p = parentFunction(p)
         }
         return false
+    }
+
+
+    /**
+     * Finds the nearest common ancestor of two nodes.
+     * Both nodes must belong to the same tree, so they always have a common ancestor
+     * (because any tree has the root node).
+     * @see commonPathFromRoot
+     */
+    fun commonAncestor(node1: N, node2: N): N {
+        if (node1 == node2) return node1
+        val path1 = pathToRoot(node1)
+        val path2 = pathToRoot(node2)
+        var k1 = path1.lastIndex
+        var k2 = path2.lastIndex
+        assert(path1[k1] == path2[k2]) { "Expected two nodes of one tree have the same root but they don't (${path1[k1]} != ${path2[k2]})"}
+        while (k1 > 0 && k2 > 0 && path1[k1-1] == path2[k2-1]) { k1--; k2-- }
+        return path1[k1]
+    }
+
+    /**
+     * Finds the longest common path from the root to the given nodes.
+     * In other words, finds the path from the root to the nearest common ancestor of the two given nodes.
+     * @see commonAncestor
+     */
+    fun commonPathFromRoot(node1: N, node2: N): List<N> {
+        val path1 = pathFromRoot(node1)
+        if (node1 == node2) return path1
+        val path2 = pathFromRoot(node2)
+        val lastIndex = min(path1.lastIndex, path2.lastIndex)
+        var k = 0
+        while (k < lastIndex && path1[k+1] == path2[k+1]) k++
+        if (k == lastIndex) {
+            if (path1.lastIndex == k) return path1
+            else if (path2.lastIndex == k) return path2
+        }
+        return path1.subList(0, k+1)
     }
 
 
